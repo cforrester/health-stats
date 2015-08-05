@@ -1,0 +1,154 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Your Progress{% endblock %}
+
+{% block body -%}
+ 
+
+
+    <script type="text/javascript"
+      src="https://www.google.com/jsapi?autoload={
+        'modules':[{
+          'name':'visualization',
+          'version':'1',
+          'packages':['corechart']
+        }]
+      }"></script>
+
+
+    <script type="text/javascript">
+      google.setOnLoadCallback(drawWeight);
+      google.setOnLoadCallback(drawMulti);
+      google.setOnLoadCallback(drawBMI);
+
+      function drawBMI() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date' ,'BMI'],
+          {% for entity in entities %}
+          ['{{entity.date|date('Y-m-d')}}' ,{{entity.bmi}} ],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'BMI',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          /*vAxis: { logScale: true } */
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('bmi_chart'));
+
+        chart.draw(data, options);
+      }
+
+        function drawMulti() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date' ,'Body Fat' , 'Muscle' , 'Body Age'],
+          {% for entity in entities %}
+          ['{{entity.date|date('Y-m-d')}}' , {{entity.bodyfat}} , {{entity.muscle}} , {{entity.bodyage}} ],
+          {% endfor %}
+        ]);
+
+        var options = {
+          curveType: 'function',
+          legend: { position: 'right' },
+          /*vAxis: { logScale: true } */
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('multi_chart'));
+
+        chart.draw(data, options);
+      }
+
+        function drawWeight() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date' ,'Weight'],
+          {% for entity in entities %}
+          ['{{entity.date|date('Y-m-d')}}' ,{{entity.weight}} ],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Weight',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          /*vAxis: { logScale: true } */
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('weight_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+    <a href="{{ path('vitalpost_new') }}" class="btn btn-info btn-lg" role="button">Create New Entry</a>
+
+    <center>
+
+    <table>
+      <tr>
+        <td>
+          <div id="weight_chart" style="width:500px; height: 225px;"></div>
+        </td>
+        <td>
+          <div id="bmi_chart" style="width: 500px; height: 225px;"></div>
+        </td>
+        </tr>
+    </table>
+
+    <br/>
+
+    <div id="multi_chart" style="width: 1000px; height: 500px;"></div>
+
+    </center>
+
+    <h1>Measurements</h1>
+
+    <table class="records_list table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Userid</th>
+                <th>Date</th>
+                <th>Weight</th>
+                <th>Bmi</th>
+                <th>Bodyfat</th>
+                <th>Muscle</th>
+                <th>Rmcal</th>
+                <th>Bodyage</th>
+                <th>Visceralfat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('vitalpost_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.userid }}</td>
+                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.weight }}</td>
+                <td>{{ entity.bmi }}</td>
+                <td>{{ entity.bodyfat }}</td>
+                <td>{{ entity.muscle }}</td>
+                <td>{{ entity.rmcal }}</td>
+                <td>{{ entity.bodyage }}</td>
+                <td>{{ entity.visceralfat }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('vitalpost_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('vitalpost_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+
+
+
+        </tbody>
+    </table>
+
+    {% endblock %}

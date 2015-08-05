@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body -%}
+    <h1>VitalPost</h1>
+
+    {% block title %}Single Post{% endblock %}
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Userid</th>
+                <td>{{ entity.userid }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ entity.date|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td>{{ entity.weight }}</td>
+            </tr>
+            <tr>
+                <th>Bmi</th>
+                <td>{{ entity.bmi }}</td>
+            </tr>
+            <tr>
+                <th>Bodyfat</th>
+                <td>{{ entity.bodyfat }}</td>
+            </tr>
+            <tr>
+                <th>Muscle</th>
+                <td>{{ entity.muscle }}</td>
+            </tr>
+            <tr>
+                <th>Rmcal</th>
+                <td>{{ entity.rmcal }}</td>
+            </tr>
+            <tr>
+                <th>Bodyage</th>
+                <td>{{ entity.bodyage }}</td>
+            </tr>
+            <tr>
+                <th>Visceralfat</th>
+                <td>{{ entity.visceralfat }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('vitalpost') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('vitalpost_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

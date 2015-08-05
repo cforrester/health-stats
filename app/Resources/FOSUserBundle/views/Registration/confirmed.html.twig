@@ -1,0 +1,15 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+<center>
+    <h2>Congrats! Your registration has been confirmed!</h2>
+    <p>We are now redirecting you to your progress page...</p>
+</center>
+
+<script language="javascript">
+	setTimeout('location.href="{{ path('vitalpost') }}"',2500);
+</script> 
+
+{% endblock fos_user_content %}
+
+

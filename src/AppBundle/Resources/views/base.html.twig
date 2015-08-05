@@ -1,0 +1,53 @@
+{# AppBundle/Resources/views/base.html.twig #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Test Application{% endblock %}</title>
+
+        {# Bootstrap Includes #}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+    </head>
+    <body>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">HealthMeter Beta</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav navbar-right">
+
+              {% if app.user %}
+                 <li style="padding-top:10px;">
+                 Welcome back, <strong>{{ app.user }}</strong>! <a href="{{ url('fos_user_security_logout') }}" style="display:inline !important;">Log Out</a>
+                 </li>
+              {% elseif not app.user %}
+                <li style="padding-top:10px;">
+                    <a href="{{ url('fos_user_security_login') }}" style="display:inline !important;">Log in</a> or 
+                    <a href="{{ url('fos_user_registration_register') }}" style="display:inline !important;">Register</a>
+                </li>
+              {% endif %}
+
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+        <div class="container-fluid">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>
